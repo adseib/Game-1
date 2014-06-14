@@ -29,6 +29,7 @@ function preload() {
 	game.load.spritesheet('man', 'assets/man.png', 64, 64, 20);
 	game.load.image('earth', 'assets/earth.png');
 	game.load.image('tree', 'assets/trees full.png');
+	game.load.image('target', 'assets/target box.png');
 	
 	
 }
@@ -37,6 +38,7 @@ var land;
 var hero;
 var cursors;
 var trees;
+
 
 
 
@@ -53,6 +55,10 @@ function create() {
 	
 	//Add hero
 	hero = game.add.sprite(0, 0, 'man');
+	
+	
+	//target = game.add.sprite(0, 0, 'target');
+	
 	
 	//enable pyhsics
 	game.physics.arcade.enable(hero);
