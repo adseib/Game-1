@@ -30,6 +30,7 @@ function preload() {
 	game.load.image('earth', 'assets/earth.png');
 	game.load.image('tree', 'assets/trees full.png');
 	game.load.image('target', 'assets/target box.png');
+	game.load.image('nud', 'assets/nud.png');
 	game.load.atlas('trees', 'assets/games/tress.png', 'assets/trees.json');
 	
 	
@@ -39,6 +40,7 @@ var land;
 var hero;
 var cursors;
 var trees;
+var enemy;
 
 
 
@@ -91,13 +93,29 @@ function create() {
 
 		}	
 	
+		enemys = game.add.group();	
+	enemys.enableBody = true;
 	
+	
+	for (var i = 0; i < 100; i++)
+		{
+			var x = game.world.randomX;
+			var y = game.world.randomY;
+			var enemy = enemys.create(i * x, y, 'nud');
+			enemy.body.immovable = true;
+
+		}	
+
+	
+	 
 
 	
 	// Controls
 	cursors = game.input.keyboard.createCursorKeys();
 	
-
+	game.physics.startSystem(Phaser.Physics.P2JS);
+	game.physics.p2.enable([hero, enemy]);
+	var spring = game.physics.p2.createSpring(hero, enemy, 150, 5, 1);
 	
 	
 }
@@ -168,7 +186,7 @@ function update() {
 function punch () {
 
 	hero.animations.play('punch');
-	game.physics.arcade.overlap(hero, trees, collectWood, null, this);
+	game.physics.arcade.overlap(hero, trees, collectWood, enemy, fightEnemy, null, this);
 }
 
 function collectWood (hero, tree) {
@@ -176,6 +194,12 @@ function collectWood (hero, tree) {
     // Removes the tree from the screen
     tree.kill();
    
+
+}
+
+function fightEnemy (hero, enemy) {
+	
+	var spring = game.physics.p2.createSpring(hero, enemy, 150, 5, 1);
 
 }
 
